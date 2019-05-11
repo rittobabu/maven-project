@@ -1,0 +1,46 @@
+pipeline{
+	any agent{
+		Stages{
+			stage('SCM checkout'){
+			git 'https://github.com/rittobabu/jenkins-example.git'
+			}
+			
+			stage('Compile source code'){
+			steps{
+				with Maven(Maven: 'LocalMaven'){
+					sh 'mvn compile'
+					}
+			      }
+			}
+			stage('Test source code'){
+			steps{
+				with Maven(Maven: 'LocalMaven'){
+					sh 'mvn test'
+					}
+				}
+			}
+			stage ('Package source code'){
+			steps{
+				withMaven(Maven: 'LocalMaven'){
+					sh 'mvn package'
+					}
+				}
+			}
+			
+			stage('Verify source code'){
+			steps{
+				withMaven(Maven: 'LocalMaven'){
+					sh 'mvn verify'
+					}
+				}
+			}
+			
+                        stage('Install source code'){
+			steps{
+				withMaven(Maven: 'LocalMaven'){
+					sh 'mvn install'
+					}
+				}
+
+			}
+}
