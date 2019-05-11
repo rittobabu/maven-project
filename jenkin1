@@ -1,5 +1,5 @@
 pipeline {
-	agent any
+	any agent
 		stages {
 			stage ('SCM checkout'){
 			git 'https://github.com/rittobabu/maven-project.git'
@@ -41,6 +41,15 @@ pipeline {
 			steps{
 				withMaven(maven: 'LocalMaven'){
 					sh 'mvn install'
+					}
+				}
+
+			}
+			stage ('Deploy to tomcat') {
+			steps{
+				sshagent(['d938d08e-329f-4ea3-a0b0-77dc2d82a405']) {
+    sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-user@13.250.40.190:/var/lib/tomcat/webapps'
+}
 					}
 				}
 
