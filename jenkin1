@@ -1,5 +1,5 @@
-pipeline{
-	any agent{
+pipeline {
+	agent any
 		Stages{
 			stage('SCM checkout'){
 			git 'https://github.com/rittobabu/jenkins-example.git'
@@ -43,6 +43,5 @@ pipeline{
 				}
 
 			}
-}
 }
 }
