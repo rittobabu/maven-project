@@ -1,0 +1,33 @@
+pipeline {
+agent any
+stages {
+        stage('SCM checkout'){
+        git 'https://github.com/rittobabu/maven-project'
+        }
+       }
+    {
+      stage ('Compile source code'){
+      steps{
+              withSonar(maven : 'LocalMaven'){
+              sh 'mvn clean compile'
+              }
+            }
+           }
+       stage('Test source code'){
+       steps{
+       withSonar(maven : 'Local Maven'){
+       sh 'mvn test'
+       }
+       }
+       }
+       stage ('Package into Sonar'){
+      steps{
+              withSonar(sonar){
+              sh 'sonar:sonar clean package'
+              }
+            }
+           }
+       }
+       }
+       
+       
