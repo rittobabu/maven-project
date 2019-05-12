@@ -8,22 +8,29 @@ stages {
     {
       stage ('Compile source code'){
       steps{
-              withSonar(maven : 'LocalMaven'){
+              withMaven(maven : 'LocalMaven'){
               sh 'mvn clean compile'
               }
             }
            }
        stage('Test source code'){
        steps{
-       withSonar(maven : 'Local Maven'){
+       withMaven(maven : 'LocalMaven'){
        sh 'mvn test'
        }
        }
        }
-       stage ('Package into Sonar'){
-      steps{
-              withSonar(sonar){
-              sh 'sonar:sonar clean package'
+       stage('Package source code'){
+       steps{
+       withMaven(maven : 'LocalMaven'){
+       sh 'mvn package'
+       }
+       }
+       }
+        stage("build & SonarQube analysis") {
+steps {
+withSonarQubeEnv('sonar') {
+sh 'mvn clean package sonar:sonar'
               }
             }
            }
