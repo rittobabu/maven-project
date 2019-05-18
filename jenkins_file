@@ -48,7 +48,7 @@ pipeline {
 		
 			stage ('SonarQube Integration') {
 			steps{
-				withSonarqubeEnv('sonar'){
+				withSonarQubeEnv('sonar'){
 				withMaven(maven: 'LocalMaven'){
 					sh 'mvn clean install sonar:sonar'
 					}
