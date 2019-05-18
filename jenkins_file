@@ -45,7 +45,18 @@ pipeline {
 				}
 
 			}
-			
+		
+			stage ('SonarQube Integration') {
+			steps{
+				withSonarEnv('sonar')
+				withMaven(maven: 'LocalMaven'){
+					sh 'mvn clean install sonar:sonar'
+					
+					}
+					
+				}
+
+			}
 
 			
 }
